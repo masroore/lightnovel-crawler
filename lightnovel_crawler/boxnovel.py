@@ -6,7 +6,7 @@ import logging
 import re
 
 from bs4 import BeautifulSoup
-
+from .utils.soup_kitchen import SoupKitchen
 from .utils.crawler import Crawler
 
 logger = logging.getLogger('BOXNOVEL')
@@ -28,24 +28,30 @@ class BoxNovelCrawler(Crawler):
         '''Get novel title, autor, cover etc'''
         logger.debug('Visiting %s', self.novel_url)
         response = self.get_response(self.novel_url)
-        soup = BeautifulSoup(response.text, 'lxml')
+        doc = SoupKitchen(response.text)
 
-        self.novel_title = soup.select_one('h3').text.split(" ", 1)[1]
+        h3 = doc.dom.select_one('h3')
+        badge = h3.find('span', class_='manga-title-badges')
+        if badge:
+            badge.extract()
+        self.novel_title = h3.text.split(" ", 1)[1].strip()
         logger.info('Novel title: %s', self.novel_title)
 
-        img = soup.find('.summary_page img')
+        # img = doc.find_class('div', 'summary_image')
+        img = doc.find_recursive(['div.summary_image', 'a', 'img'])
+
         if img:
             self.novel_cover = self.absolute_url(img['src'])
             logger.info('Novel cover: %s', self.novel_cover)
 
-        author = soup.find("div", {"class": "author-content"}).findAll("a")
+        author = doc.find_class('div', 'author-content').findAll('a')
         if len(author) == 2:
             self.novel_author = author[0].text + ' (' + author[1].text + ')'
         else:
             self.novel_author = author[0].text
         logger.info('Novel author: %s', self.novel_author)
 
-        chapters = soup.select('ul.main li.wp-manga-chapter a')
+        chapters = doc.dom.select('ul.main li.wp-manga-chapter a')
         chapters.reverse()
 
         vol_id = None
