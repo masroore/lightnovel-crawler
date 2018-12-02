@@ -76,7 +76,7 @@ class BoxNovelCrawler(Crawler):
 
     def is_valid_content(self, s):
         s = s.strip()
-        return s and not s.lower().startswith('translator:')
+        return s and not s.lower().startswith('translator:') and not s.lower().startswith('chapter ')
 
     def download_chapter_body(self, chapter):
         '''Download body of a single chapter and return as clean html format.'''
