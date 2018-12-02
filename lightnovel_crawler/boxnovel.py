@@ -24,7 +24,7 @@ class BoxNovelCrawler(Crawler):
     def logout(self):
         pass
 
-    def read_novel_info(self):
+    def read_novel_info(self, url=None):
         '''Get novel title, author, cover etc'''
         logger.debug('Visiting %s', self.novel_url)
         response = self.get_response(self.novel_url)
@@ -74,26 +74,30 @@ class BoxNovelCrawler(Crawler):
         logger.debug(self.chapters)
         logger.debug('%d chapters found', len(self.chapters))
 
+    def is_valid_content(self, s):
+        s = s.strip()
+        return s and not s.lower().startswith('translator:')
+
     def download_chapter_body(self, chapter):
         '''Download body of a single chapter and return as clean html format.'''
         logger.info('Downloading %s', chapter['url'])
         response = self.get_response(chapter['url'])
         soup = BeautifulSoup(response.text, 'lxml')
 
-        # chapter['title'] = soup.find('li', {'class':'active'}).text
         content = soup.find('div', class_='text-left').findAll('p')
+        titles = soup.find_all(re.compile('^h[2-4]$'))
 
-        title = soup.find_all(re.compile('^h[2-4]$'))
-
-        if len(title):
-            chapter['title'] = title[0].text
+        if any(titles):
+            chapter['title'] = titles[0].text.strip()
         else:
-            if 'Translator' in soup.select_one('p').text:
-                chapter['title'] = soup.select_one('p').text.split("Translator", 1)[0]
+            txt = soup.select_one('p').text.strip()
+            if 'Translator:' in txt:
+                # if 'Translator' in soup.select_one('p').text:
+                chapter['title'] = txt.split('Translator:', 1)[0].strip()
             else:
-                chapter['title'] = soup.select_one('p').text
+                chapter['title'] = txt
                 logger.info('Downloading %s', content.pop(0))
 
-        body_parts = ''.join([str(p.extract()) for p in content if p.text.strip()])
+        body_parts = ''.join([str(p.extract()) for p in content if self.is_valid_content(p.text)])
 
         return body_parts
