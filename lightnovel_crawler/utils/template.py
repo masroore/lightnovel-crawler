@@ -449,10 +449,10 @@ if __name__ == '__main__':
 
     t = '''---start
 %for i in l:
-    {{i}}
+    {{i.title()}}
 %end
 ---end'''
-    s = render(t, l=['a', 2, 3.0])
+    s = render(t, l=['apple', '2', '3.0'])
     print(s)
 
     s = render(t, l=[])

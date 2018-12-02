@@ -3,12 +3,10 @@ import re
 
 with open(os.path.join(os.path.dirname(__file__), 'html_style.css')) as f:
     style = f.read()
-# end with
 
 
 def get_value():
     return _minify(style)
-# end def
 
 
 def _minify(css):
@@ -26,7 +24,7 @@ def _minify(css):
     # spaces may be safely collapsed as generated content will collapse them anyway
     css = re.sub(r'\s+', ' ', css)
 
-    # shorten collapsable colors: #aabbcc to #abc
+    # shorten collapsible colors: #aabbcc to #abc
     css = re.sub(
         r'#([0-9a-f])\1([0-9a-f])\2([0-9a-f])\3(\s|;)', r'#\1\2\3\4', css)
 
@@ -35,7 +33,7 @@ def _minify(css):
 
     for rule in re.findall(r'([^{]+){([^}]*)}', css):
         # we don't need spaces around operators
-        selectors = [re.sub(r'(?<=[\[\(>+=])\s+|\s+(?=[=~^$*|>+\]\)])',
+        selectors = [re.sub(r'(?<=[\[(>+=])\s+|\s+(?=[=~^$*|>+\])])',
                             r'', selector.strip()) for selector in rule[0].split(',')]
         # order is important, but we still want to discard repetitions
         properties = {}
@@ -51,4 +49,3 @@ def _minify(css):
                     ['%s:%s;' % (key, properties[key]) for key in porder])[:-1])
 
     return result
-# end def
