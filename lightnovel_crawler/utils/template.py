@@ -4,7 +4,7 @@ import os
 import re
 import warnings
 
-TEMPLATE_PATH = ['./', './views/']
+TEMPLATE_PATH = ['./', './views/', './templates/']
 TEMPLATES = {}
 DEBUG = False
 
