@@ -22,19 +22,6 @@ def description():
     print('-' * LINE_SIZE)
 
 
-def epilog():
-    print()
-    print('-' * LINE_SIZE)
-
-    print(' ' + Icons.LINK, Fore.CYAN,
-          'https://github.com/dipu-bd/lightnovel-crawler', Fore.RESET)
-
-    print(' ' + Icons.HANDS, Fore.CYAN,
-          'https://saythanks.io/to/dipu-bd', Fore.RESET)
-
-    print('=' * LINE_SIZE)
-
-
 def debug_mode(level):
     levels = ['', 'WARN', 'INFO', 'DEBUG']
 

@@ -10,7 +10,7 @@ from urllib.parse import urlparse
 from progress.bar import IncrementalBar
 
 
-def downlod_cover(app):
+def download_cover(app):
     app.book_cover = None
     if app.crawler.novel_cover:
         app.logger.warn('Getting cover image...')
@@ -70,7 +70,7 @@ def download_chapter_body(app, chapter):
 
 
 def download_chapters(app):
-    downlod_cover(app)
+    download_cover(app)
 
     bar = IncrementalBar('Downloading chapters', max=len(app.chapters))
     bar.start()

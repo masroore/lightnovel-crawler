@@ -53,8 +53,9 @@ def novel_info(app):
     app.crawler.read_novel_info()
 
     app.logger.info('Checking output path...')
-    app.output_path = os.path.abspath(
-        re.sub(r'[\\/*?:"<>|\']', '', app.crawler.novel_title))
+    base_dir = os.path.join(os.path.curdir, 'downloads')
+    title = re.sub(r'[\\/*?:"<>|\']', '', app.crawler.novel_title)
+    app.output_path = os.path.abspath(os.path.join(base_dir, title))
     if os.path.exists(app.output_path) and force_replace_old():
         shutil.rmtree(app.output_path, ignore_errors=True)
 

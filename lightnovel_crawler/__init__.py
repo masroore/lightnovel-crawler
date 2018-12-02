@@ -1,27 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Interactive value input"""
-import os
 import logging
+import os
+
 import requests
 from colorama import init as init_colorama
+
 from .app import start_app
 from .app.arguments import get_args, build_parser
-from .app.display import description, epilog, debug_mode
+from .app.display import description, debug_mode
 from .assets.version import get_value as get_version
-
+from .boxnovel import BoxNovelCrawler
+from .idqidian import IdqidianCrawler
+from .lnindo import LnindoCrawler
 from .lnmtl import LNMTLCrawler
+from .novelplanet import NovelPlanetCrawler
+from .readln import ReadLightNovelCrawler
+from .tests.crawler_app_test import run_tests
 from .webnovel import WebnovelCrawler
 from .wuxia import WuxiaCrawler
 from .wuxiac import WuxiaCoCrawler
 from .wuxiaonline import WuxiaOnlineCrawler
-from .boxnovel import BoxNovelCrawler
-from .readln import ReadLightNovelCrawler
-from .novelplanet import NovelPlanetCrawler
-from .lnindo import LnindoCrawler
-from .idqidian import IdqidianCrawler
-from .utils.crawler import Crawler
-from .tests.crawler_app_test import run_tests
 
 crawler_list = {
     'https://lnmtl.com/': LNMTLCrawler,
@@ -53,8 +53,7 @@ def main():
         debug_mode(args.log)
         print(args)
 
-    requests.urllib3.disable_warnings(
-        requests.urllib3.exceptions.InsecureRequestWarning)
+    requests.urllib3.disable_warnings(requests.urllib3.exceptions.InsecureRequestWarning)
 
     try:
         if args.test:
@@ -65,10 +64,6 @@ def main():
     except Exception as err:
         if args.log == 3:
             raise err
-
-    # end try
-
-    epilog()
 
 
 if __name__ == '__main__':
