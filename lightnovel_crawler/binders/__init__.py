@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 To bind into ebooks
@@ -18,16 +17,13 @@ def make_data(app):
     if app.pack_by_volume:
         for vol in app.crawler.volumes:
             data['Volume %d' % vol['id']] = [
-                x for x in app.chapters
-                if x['volume'] == vol['id']
-                and len(x['body']) > 0
+                x for x in app.chapters if x['volume'] == vol['id'] and len(x['body']) > 0
             ]
-        # end for
+
     else:
         data[''] = app.chapters
-    # end if
+
     return data
-# end def
 
 
 def bind_books(app):
@@ -36,4 +32,3 @@ def bind_books(app):
     make_htmls(app, data)
     epubs = make_epubs(app, data)
     make_mobis(app, epubs)
-# end def
