@@ -1,6 +1,5 @@
 import argparse
 import os
-import textwrap
 
 from .display import LINE_SIZE
 
@@ -15,7 +14,7 @@ class ArgReader:
                             version='Lightnovel Crawler ' + os.environ['version'])
         parser.add_argument('-l', '--log', action='count',
                             help='Set log levels (1 = warn, 2 = info, 3 = debug)')
-        
+
         source = parser.add_mutually_exclusive_group()
         source.add_argument('--test', action='store_true',
                             help='Start in test environment')
@@ -47,7 +46,6 @@ class ArgReader:
                                help='A list of specific chapter urls')
 
         self.arguments = parser.parse_args()
-# end class
 
 
 reader = ArgReader()
@@ -55,9 +53,7 @@ reader = ArgReader()
 
 def build_parser():
     reader.build()
-# end def
 
 
 def get_args():
     return reader.arguments
-# end def

@@ -9,7 +9,6 @@ def get_novel_url():
     url = get_args().novel_page
     if url and url.startswith('http'):
         return url
-    # end if
 
     answer = prompt([
         {
@@ -22,13 +21,12 @@ def get_novel_url():
     ])
 
     return answer['novel'].strip()
-# end def
 
 
 def force_replace_old():
     if len(sys.argv) > 1:
         return get_args().force
-    # end if
+
     answer = prompt([
         {
             'type': 'confirm',
@@ -38,14 +36,13 @@ def force_replace_old():
         },
     ])
     return answer['force']
-# end def
 
 
 def login_info():
     args = get_args()
     if args.login:
         return args.login
-    # end if
+
     answer = prompt([
         {
             'type': 'confirm',
@@ -72,9 +69,8 @@ def login_info():
             },
         ])
         return answer['email'], answer['password']
-    # end if
+
     return None
-# end if
 
 
 def download_selection(chapter_count, volume_count):
@@ -84,8 +80,6 @@ def download_selection(chapter_count, volume_count):
     for key in keys:
         if arg.__getattribute__(key):
             return key
-        # end if
-    # end if
 
     big_list_warn = '(warn: very big list)' if chapter_count > 50 else ''
 
@@ -101,7 +95,6 @@ def download_selection(chapter_count, volume_count):
     if chapter_count <= 20:
         choices.pop(1)
         choices.pop(1)
-    # end if
 
     answer = prompt([
         {
@@ -113,7 +106,6 @@ def download_selection(chapter_count, volume_count):
     ])
 
     return keys[choices.index(answer['choice'])]
-# end def
 
 
 def range_using_urls(crawler):
@@ -127,7 +119,7 @@ def range_using_urls(crawler):
             except:
                 pass
             return 'No such chapter found given the url'
-        # end def
+
         answer = prompt([
             {
                 'type': 'input',
@@ -144,13 +136,11 @@ def range_using_urls(crawler):
         ])
         start_url = answer['start_url']
         stop_url = answer['stop_url']
-    # end if
 
     start = crawler.get_chapter_index_of(start_url) - 1
     stop = crawler.get_chapter_index_of(stop_url) - 1
 
     return (start, stop) if start < stop else (stop, start)
-# end def
 
 
 def range_using_index(chapter_count):
@@ -164,7 +154,7 @@ def range_using_index(chapter_count):
             except:
                 pass
             return 'Please enter an integer between 1 and %d' % chapter_count
-        # end def
+
         answer = prompt([
             {
                 'type': 'input',
@@ -186,10 +176,8 @@ def range_using_index(chapter_count):
     else:
         start = start - 1
         stop = stop - 1
-    # end if
 
     return (start, stop) if start < stop else (stop, start)
-# end def
 
 
 def range_from_volumes(volumes, times=0):
@@ -197,7 +185,6 @@ def range_from_volumes(volumes, times=0):
 
     if times == 0:
         selected = get_args().volumes
-    # end if
 
     if not selected:
         answer = prompt([
@@ -220,14 +207,11 @@ def range_from_volumes(volumes, times=0):
             int(val.split(' ')[0])
             for val in answer['volumes']
         ]
-    # end if
 
     if times < 3 and len(selected) == 0:
         return range_from_volumes(volumes, times + 1)
-    # end if
 
     return selected
-# end def
 
 
 def range_from_chapters(crawler, times=0):
@@ -235,7 +219,6 @@ def range_from_chapters(crawler, times=0):
 
     if times == 0:
         selected = get_args().chapters
-    # end if
 
     if not selected:
         answer = prompt([
@@ -258,11 +241,9 @@ def range_from_chapters(crawler, times=0):
             crawler.get_chapter_index_of(x)
             for x in selected if x
         ]
-    # end if
 
     if times < 3 and len(selected) == 0:
         return range_from_chapters(crawler, times + 1)
-    # end if
 
     selected = [
         x for x in selected
@@ -270,14 +251,13 @@ def range_from_chapters(crawler, times=0):
     ]
 
     return selected
-# end def
+
 
 def pack_by_volume():
     if len(sys.argv) > 1:
         return get_args().byvol
-    # end if
 
-    answer= prompt([
+    answer = prompt([
         {
             'type': 'confirm',
             'name': 'volume',
@@ -286,4 +266,3 @@ def pack_by_volume():
         },
     ])
     return answer['volume']
-# end def

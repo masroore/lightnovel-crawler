@@ -1,8 +1,7 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Validators for py inquirer"""
 import math
-import regex
+
 
 def validateNumber(val, start, stop):
     try:
@@ -16,5 +15,3 @@ def validateNumber(val, start, stop):
         return 'Number should be lesser or equal to %d' % stop
     else:
         return True
-    # end if
-# end def

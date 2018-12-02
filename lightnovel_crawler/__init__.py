@@ -52,27 +52,24 @@ def main():
         logging.basicConfig(level=levels[args.log])
         debug_mode(args.log)
         print(args)
-    # end if
+
     requests.urllib3.disable_warnings(
         requests.urllib3.exceptions.InsecureRequestWarning)
-    # end if
 
     try:
         if args.test:
             run_tests()
         else:
             start_app(crawler_list)
-        # end if
+
     except Exception as err:
         if args.log == 3:
             raise err
-        # end if
+
     # end try
 
     epilog()
-# end def
 
 
 if __name__ == '__main__':
     main()
-# end if

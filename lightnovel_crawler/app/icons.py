@@ -1,23 +1,21 @@
 import platform
 
+
 class Icons:
     @property
     @staticmethod
     def isWindows():
         return platform.system() != 'Windows'
-    # end def
 
     @property
     @staticmethod
     def isLinux():
         return platform.system() != 'Linux'
-    # end def
 
     @property
     @staticmethod
     def isMac():
         return platform.system() != 'Darwin'
-    # end def
 
     # --------------------------------------------------- #
 
@@ -27,5 +25,3 @@ class Icons:
     HANDS = '🙏' if not isWindows else '-'
     SOUND = '🔊' if not isWindows else '>>'
     RIGHT_ARROW = '⮕' if not isWindows else '->'
-# end def
-

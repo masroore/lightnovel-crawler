@@ -22,9 +22,6 @@ def make_texts(app, data):
                 text = re.sub('[\r\n]+', '\r\n\r\n', text)
                 file.write(text)
                 text_files.append(file_name)
-            # end with
-        # end for
-    # end for
+
     logger.warn('Created: %d text files', len(text_files))
     return text_files
-# end def

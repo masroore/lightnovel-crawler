@@ -1,10 +1,10 @@
-import re
-import io
-import os
 import logging
+import os
+
 from ebooklib import epub
 
 logger = logging.getLogger('EPUB_BINDER')
+
 
 def make_intro_page(crawler):
     html = '<div style="padding-top: 25%; text-align: center;">'
@@ -19,7 +19,7 @@ def make_intro_page(crawler):
         title='Intro',
         content=html,
     )
-# end def
+
 
 def make_chapters(book, chapters):
     book.toc = []
@@ -33,8 +33,7 @@ def make_chapters(book, chapters):
         )
         book.add_item(content)
         book.toc.append(content)
-    # end for
-# end def 
+
 
 def bind_epub_book(app, chapters, volume=''):
     book_title = (app.crawler.novel_title + ' ' + volume).strip()
@@ -57,7 +56,6 @@ def bind_epub_book(app, chapters, volume=''):
         book.spine = ['cover', intro_page, 'nav']
     else:
         book.spine = [intro_page, 'nav']
-    # end if
 
     # Create chapters
     make_chapters(book, chapters)
@@ -73,19 +71,13 @@ def bind_epub_book(app, chapters, volume=''):
     epub.write_epub(file_path, book, {})
     logger.warn('Created: %s.epub', book_title)
     return file_path
-# end def
+
 
 def make_epubs(app, data):
     epub_files = []
     for vol in data:
         if len(data[vol]) > 0:
-            book = bind_epub_book(
-                app,
-                volume=vol,
-                chapters=data[vol],
-            )
+            book = bind_epub_book(app, volume=vol, chapters=data[vol])
             epub_files.append(book)
-        # end if
-    # end for
+
     return epub_files
-# end def

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Crawler for novels from [LNMTL](https://lnmtl.com).
@@ -7,7 +6,9 @@ import json
 import logging
 import re
 from concurrent import futures
+
 from bs4 import BeautifulSoup
+
 from .utils.crawler import Crawler
 
 logger = logging.getLogger('LNMTL')
@@ -20,7 +21,6 @@ class LNMTLCrawler(Crawler):
     @property
     def supports_login(self):
         return True
-    # end def
 
     def login(self, email, password):
         '''login to LNMTL'''
@@ -50,8 +50,6 @@ class LNMTLCrawler(Crawler):
             ]))
             logger.debug('-' * 80)
             logger.error('Failed to login')
-        # end if
-    # end def
 
     def logout(self):
         '''logout as a good citizen'''
@@ -62,8 +60,6 @@ class LNMTLCrawler(Crawler):
             logger.error('Failed to logout.')
         else:
             logger.warning('Logged out.')
-        # end if
-    # end def
 
     def read_novel_info(self):
         '''get list of chapters'''
@@ -82,7 +78,6 @@ class LNMTLCrawler(Crawler):
         logger.debug(self.volumes)
 
         logger.info('%d volumes found.', len(self.volumes))
-    # end def
 
     def parse_volume_list(self, soup):
         self.volumes = []
@@ -90,11 +85,11 @@ class LNMTLCrawler(Crawler):
             text = script.text.strip()
             if not text.startswith('window.lnmtl'):
                 continue
-            # end if
+
             i, j = text.find('lnmtl.volumes = '), text.find(';lnmtl.route')
             if i <= 0 and j <= i:
                 continue
-            # end if
+
             i += len('lnmtl.volumes =')
 
             volumes = json.loads(text[i:j].strip())
@@ -106,10 +101,8 @@ class LNMTLCrawler(Crawler):
                     'download_id': vol['id'],
                     'id': int(vol['number']),
                 })
-            # end for
+
             break
-        # end for
-    # end def
 
     def download_chapter_list(self):
         self.chapters = []
@@ -124,11 +117,10 @@ class LNMTLCrawler(Crawler):
         }
         for future in futures.as_completed(future_to_url):
             futures.wait(future.result())
-        # end for
+
         self.chapters = sorted(self.chapters, key=lambda x: x['id'])
         logger.debug(self.chapters)
         logger.info('%d chapters found', len(self.chapters))
-    # end def
 
     def download_chapter_list_of_volume(self, volume, page_url):
         vol_id = volume['download_id']
@@ -143,7 +135,7 @@ class LNMTLCrawler(Crawler):
                 'title': chapter['title'].strip(),
                 'volume': volume['id'],
             })
-        # end for
+
         if result['current_page'] == 1:
             return {
                 self.executor.submit(
@@ -153,9 +145,8 @@ class LNMTLCrawler(Crawler):
                 ): '%s-%s' % (vol_id, page)
                 for page in range(1, result['last_page'])
             }
-        # end if
+
         return {}
-    # end def
 
     def download_chapter_body(self, chapter):
         logger.info('Downloading %s', chapter['url'])
@@ -165,7 +156,6 @@ class LNMTLCrawler(Crawler):
         body = [self.format_text(x.text) for x in body if x]
         body = '\n'.join(['<p>%s</p>' % (x) for x in body if len(x)])
         return body.strip()
-    # end def
 
     def format_text(self, text):
         '''formats the text and remove bad characters'''
@@ -174,5 +164,3 @@ class LNMTLCrawler(Crawler):
         text = re.sub(r'\u201d[, ]*', '&rdquo;', text)
         text = re.sub(r'[ ]*,[ ]+', ', ', text)
         return text.strip()
-    # end def
-# end class

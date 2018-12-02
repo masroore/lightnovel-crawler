@@ -1,12 +1,11 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Crawler for [Wuxia World Online](https://wuxiaworld.online/).
 """
-import json
 import logging
-import re
+
 from bs4 import BeautifulSoup
+
 from .utils.crawler import Crawler
 
 logger = logging.getLogger('WUXIA_ONLINE')
@@ -17,15 +16,12 @@ class WuxiaOnlineCrawler(Crawler):
     def supports_login(self):
         '''Whether the crawler supports login() and logout method'''
         return False
-    # end def
 
     def login(self, email, password):
         pass
-    # end def
 
     def logout(self):
         pass
-    # end def
 
     def read_novel_info(self):
         '''Get novel title, autor, cover etc'''
@@ -52,19 +48,17 @@ class WuxiaOnlineCrawler(Crawler):
             if last_vol != vol_id:
                 self.volumes.append(volume)
                 last_vol = vol_id
-            # end if
+
             self.chapters.append({
                 'id': chap_id,
                 'volume': vol_id,
                 'title': a['title'],
-                'url':  self.absolute_url(a['href']),
+                'url': self.absolute_url(a['href']),
             })
-        # end for
 
         logger.debug(self.volumes)
         logger.debug(self.chapters)
         logger.debug('%d chapters found', len(self.chapters))
-    # end def
 
     def download_chapter_body(self, chapter):
         '''Download body of a single chapter and return as clean html format.'''
@@ -75,5 +69,3 @@ class WuxiaOnlineCrawler(Crawler):
         parts = soup.select_one('#list_chapter .content-area')
         body = self.extract_contents(parts.contents)
         return '<p>' + '</p><p>'.join(body) + '</p>'
-    # end def
-# end class

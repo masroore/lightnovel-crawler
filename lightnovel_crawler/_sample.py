@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Use this sample to create new sources
@@ -9,6 +8,7 @@ from .utils.crawler import Crawler
 # TODO: Set this to your crawler name for meaningful logging
 logger = logging.getLogger('CHANGE_THIS_NAME')
 
+
 # TODO: Copy this file directly to your new crawler. And fill up
 #       the methods as described in their todos
 
@@ -17,13 +17,11 @@ class SampleCrawler(Crawler):
         # TODO: Initiaze your crawler, variables etc. It gets called at the
         #       beginning of the app.
         pass
-    # end def
 
     def dispose(self):
         # TODO: Dispose your crawler, variables etc. It gets called at the
         #       beginning of the app.
         pass
-    # end def
 
     @property
     def supports_login(self):
@@ -31,7 +29,6 @@ class SampleCrawler(Crawler):
         # TODO: Pass False or delete this method if this crawler
         #       does not support login.
         return False
-    # end def
 
     def login(self, email, password):
         # TODO: You can just delete this method if not necessary.
@@ -39,13 +36,11 @@ class SampleCrawler(Crawler):
         #       methods from the parent class. They maintain cookies
         #       automatically for you.
         pass
-    # end def
 
     def logout(self):
         # TODO: Logout from the site. Not that necessary, but still it is
         #       nice to logout after you are done.
         pass
-    # end def
 
     def read_novel_info(self, url):
         '''Get novel title, autor, cover etc'''
@@ -53,7 +48,6 @@ class SampleCrawler(Crawler):
         #       You may or may not set the novel_cover, novel_author, volumes
         #       and chapter list, but the `novel_title` must be set here.
         pass
-    # end def
 
     def download_chapter_list(self):
         '''Download list of chapters and volumes.'''
@@ -61,7 +55,6 @@ class SampleCrawler(Crawler):
         #       online. If you already got chapter list inside the method
         #       `read_novel_info`, implementing this one is not necessary.
         pass
-    # end def
 
     def get_chapter_index_of(self, url):
         '''Return the index of chapter by given url or -1'''
@@ -70,12 +63,9 @@ class SampleCrawler(Crawler):
         #       By default, it returns the first index of chapter from the
         #       `self.chapters` that has 'url' property matching the given `url`.
         pass
-    # end def
 
     def download_chapter_body(self, chapter):
         '''Download body of a single chapter and return as clean html format.'''
         # TODO: This method must be implemented. Return an empty body if
         #       something goes wrong. You should not return None.
         pass
-    # end def
-# end class

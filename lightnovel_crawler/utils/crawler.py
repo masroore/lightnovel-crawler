@@ -1,10 +1,10 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Crawler application
 """
 import re
 from concurrent import futures
+
 from . import cfscrape
 
 
@@ -40,7 +40,6 @@ class Crawler:
 
     def __init__(self):
         self.scrapper.verify = False
-    # end def
 
     # ------------------------------------------------------------------------- #
     # Implement these methods
@@ -48,40 +47,32 @@ class Crawler:
 
     def initialize(self):
         pass
-    # end def
 
     def dispose(self):
         pass
-    # end def
 
     @property
     def supports_login(self):
         '''Whether the crawler supports login() and logout method'''
         return False
-    # end def
 
     def login(self, email, password):
         pass
-    # end def
 
     def logout(self):
         pass
-    # end def
 
     def read_novel_info(self, url):
         '''Get novel title, autor, cover etc'''
         pass
-    # end def
 
     def download_chapter_list(self):
         '''Download list of chapters and volumes.'''
         pass
-    # end def
 
     def download_chapter_body(self, chapter):
         '''Download body of a single chapter and return as clean html format.'''
         pass
-    # end def
 
     def get_chapter_index_of(self, url):
         '''Return the index of chapter by given url or 0'''
@@ -89,10 +80,8 @@ class Crawler:
         for chapter in self.chapters:
             if chapter['url'] == url:
                 return chapter['id']
-            # end if
-        # end for
+
         return 0
-    # end def
 
     # ------------------------------------------------------------------------- #
     # Helper methods to be used
@@ -100,12 +89,10 @@ class Crawler:
     @property
     def headers(self):
         return self.scrapper.headers.copy()
-    # end def
 
     @property
     def cookies(self):
         return {x.name: x.value for x in self.scrapper.cookies}
-    # end def
 
     def absolute_url(self, url):
         if not url or len(url) == 0:
@@ -118,8 +105,6 @@ class Crawler:
             return self.home_url + url
         else:
             return (self.last_visited_url or self.home_url) + '/' + url
-        # end if
-    # end def
 
     def get_response(self, url, incognito=False):
         self.last_visited_url = url.strip('/')
@@ -130,7 +115,6 @@ class Crawler:
             for x in response.cookies
         })
         return response
-    # end def
 
     def submit_form(self, url, multipart=False, headers={}, **data):
         '''Submit a form using post request'''
@@ -144,14 +128,12 @@ class Crawler:
             for x in response.cookies
         })
         return response
-    # end def
 
     def download_cover(self, output_file):
         response = self.get_response(self.novel_cover)
         with open(output_file, 'wb') as f:
             f.write(response.content)
         # end with
-    # end def
 
     blacklist_patterns = [
         r'^(volume|chapter) .?\d+$',
@@ -161,10 +143,8 @@ class Crawler:
         for pattern in self.blacklist_patterns:
             if re.search(pattern, text, re.IGNORECASE):
                 return False
-            # end if
-        # end for
+
         return True
-    # end def
 
     def extract_contents(self, contents, level=0):
         body = []
@@ -174,28 +154,23 @@ class Crawler:
             elif ['h3', 'div', 'p'].count(elem.name):
                 body += self.extract_contents(elem.contents, level + 1)
                 continue
-            # end if
-            text = ''
+
             if not elem.name:
                 text = str(elem).strip()
             else:
                 text = '<%s>%s</%s>' % (elem.name, elem.text.strip(), elem.name)
-            # end if
+
             patterns = [
                 re.compile(r'<!--(.|\n)*-->', re.MULTILINE),
                 re.compile(r'\[if (.|\n)*!\[endif\]', re.MULTILINE),
             ]
             for x in patterns:
                 text = x.sub('', text).strip()
-            # end for
+
             if text:
                 body.append(text)
-            # end if
-        # end for
+
         if level == 0:
             return [x for x in body if len(x) and self.not_blacklisted(x)]
         else:
             return body
-        # end if
-    # end def
-# end class

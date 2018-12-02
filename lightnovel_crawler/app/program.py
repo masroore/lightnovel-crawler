@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 The main entry point of the program
@@ -29,14 +28,12 @@ class Program:
             data = login_info()
             if data and len(data) == 2:
                 crawler.login(data[0], data[1])
-            # end if
-        # end if
 
         novel_info(self)
 
         if len(self.crawler.volumes) > 0:
             self.pack_by_volume = pack_by_volume()
-        # end if
+
         self.logger.info('To be packed by volume = %s', self.pack_by_volume)
 
         self.chapter_range()
@@ -44,12 +41,10 @@ class Program:
 
         if self.crawler.supports_login:
             self.crawler.logout()
-        # end if
 
         bind_books(self)
 
         self.crawler.dispose()
-    # end def 
 
     def chapter_range(self):
         chapter_count = len(self.crawler.chapters)
@@ -84,15 +79,11 @@ class Program:
                 chap for chap in self.crawler.chapters
                 if selected.count(chap['id']) > 0
             ]
-        # end if
 
         if not len(self.chapters):
             self.logger.error('No chapters was selected')
             raise Exception()
-        # end if
 
         self.logger.debug('Selected chapters to download:')
         self.logger.debug(self.chapters)
         self.logger.info('%d chapters to be downloaded', len(self.chapters))
-    # end def
-# end class

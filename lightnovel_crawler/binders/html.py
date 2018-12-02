@@ -47,7 +47,6 @@ def bind_html_chapter(chapter, prev_chapter, next_chapter):
 
     file_name = '%s.html' % str(chapter['id']).rjust(5, '0')
     return html, file_name
-# end def
 
 
 def make_htmls(app, data):
@@ -67,8 +66,6 @@ def make_htmls(app, data):
                 file.write(html)
             # end with
             web_files.append(file_name)
-        # end for
-    # end for
+
     logger.warn('Created: %d html files', len(web_files))
     return web_files
-# end def

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 To get the novel info
@@ -18,9 +17,6 @@ def format_volume_list(crawler):
         vol['title'] = vol['title'] or title
         if not re.search(r'vol(ume)? .?\d+', vol['title'], re.IGNORECASE):
             vol['title'] = title + ' - ' + vol['title'].title()
-        # end if
-    # end for
-# end def
 
 
 def format_chapter_list(crawler):
@@ -29,7 +25,6 @@ def format_chapter_list(crawler):
         item['title'] = item['title'] or title
         if not re.search(r'ch(apter)? .?\d+', item['title'], re.IGNORECASE):
             item['title'] = title + ' - ' + item['title'].title()
-        # end if
 
         item['volume'] = item['volume'] or (1 + (item['id'] - 1) // 100)
         item['volume_title'] = 'Volume %d' % item['volume']
@@ -38,10 +33,6 @@ def format_chapter_list(crawler):
                 item['volume_title'] = vol['title']
                 vol['chapter_count'] += 1
                 break
-            # end if
-        # end for
-    # end for
-# end def
 
 
 def save_metadata(crawler, output_path):
@@ -55,8 +46,6 @@ def save_metadata(crawler, output_path):
     }
     with open(file_name, 'w') as file:
         json.dump(data, file, indent=2)
-    # end with
-# end def
 
 
 def novel_info(app):
@@ -69,8 +58,7 @@ def novel_info(app):
     if os.path.exists(app.output_path):
         if force_replace_old():
             shutil.rmtree(app.output_path, ignore_errors=True)
-        # end if
-    # end if
+
     os.makedirs(app.output_path, exist_ok=True)
 
     app.logger.info('Getting chapters...')
@@ -80,4 +68,3 @@ def novel_info(app):
     format_chapter_list(app.crawler)
 
     save_metadata(app.crawler, app.output_path)
-# end def

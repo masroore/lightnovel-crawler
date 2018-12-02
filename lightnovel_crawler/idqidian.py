@@ -1,12 +1,11 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Crawler for [Idqidian.us](https://www.idqidian.us/).
 """
-import json
 import logging
-import re
+
 from bs4 import BeautifulSoup
+
 from .utils.crawler import Crawler
 
 logger = logging.getLogger('LNINDO')
@@ -17,15 +16,12 @@ class IdqidianCrawler(Crawler):
     def supports_login(self):
         '''Whether the crawler supports login() and logout method'''
         return False
-    # end def
 
     def login(self, email, password):
         pass
-    # end def
 
     def logout(self):
         pass
-    # end def
 
     def read_novel_info(self):
         '''Get novel title, autor, cover etc'''
@@ -41,7 +37,7 @@ class IdqidianCrawler(Crawler):
         logger.info('Novel cover: %s', self.novel_cover)
 
         author = soup.select('p')[3].text
-        self.novel_author = author[20:len(author)-22]
+        self.novel_author = author[20:len(author) - 22]
         logger.info('Novel author: %s', self.novel_author)
 
         chapters = soup.find('div', {
@@ -52,24 +48,22 @@ class IdqidianCrawler(Crawler):
         for a in chapters:
             chap_id = len(self.chapters) + 1
             if len(self.chapters) % 100 == 0:
-                vol_id = chap_id//100 + 1
+                vol_id = chap_id // 100 + 1
                 vol_title = 'Volume ' + str(vol_id)
                 self.volumes.append({
                     'id': vol_id,
                     'title': vol_title,
                 })
-            # end if
+
             self.chapters.append({
                 'id': chap_id,
                 'volume': vol_id,
-                'url':  self.absolute_url(a['href']),
+                'url': self.absolute_url(a['href']),
                 'title': a.text.strip() or ('Chapter %d' % chap_id),
             })
-        # end for
 
         logger.debug(self.chapters)
         logger.debug('%d chapters found', len(self.chapters))
-    # end def
 
     def download_chapter_body(self, chapter):
         '''Download body of a single chapter and return as clean html format.'''
@@ -89,8 +83,5 @@ class IdqidianCrawler(Crawler):
             my_texts = set(texts).difference(unwanted_text)
             body_parts = ''.join(
                 [str(p) for p in my_texts if p.strip() and not 'Advertisement' in p and not 'JavaScript!' in p])
-        # end if
 
         return body_parts
-    # end def
-# end class

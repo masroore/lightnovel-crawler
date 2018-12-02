@@ -4,8 +4,8 @@ import tarfile
 import tempfile
 from io import BytesIO, FileIO
 from logging import Logger
-from shutil import rmtree
 from zipfile import ZipFile
+
 import requests
 
 logger = Logger('KINDLEGEN')
@@ -24,8 +24,6 @@ def get_url_by_platform():
         return WINDOWS_URL
     else:
         raise Exception('Unrecognized platform')
-    # end if
-# end def
 
 
 def extract_kindlegen_file(extractor, file_list):
@@ -42,8 +40,6 @@ def extract_kindlegen_file(extractor, file_list):
         logger.info('Renamed kindlegen.exe to kindlegen')
     else:
         raise Exception('Kindlegen executable was not found.')
-    # end if
-# end def
 
 
 def download_kindlegen():
@@ -75,8 +71,6 @@ def download_kindlegen():
             os.remove(temp_file)
             logger.info('%s removed.', temp_file)
         # end finally
-    # end if
-# end def
 
 
 def retrieve_kindlegen():
@@ -85,6 +79,5 @@ def retrieve_kindlegen():
     kindlegen_file = os.path.join(home, 'kindlegen')
     if os.path.exists(kindlegen_file):
         return kindlegen_file
-    # end if
+
     return None
-# end def
