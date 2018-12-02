@@ -38,7 +38,6 @@ class WuxiaCrawler(Crawler):
             logger.info('Novel cover: %s', self.novel_cover)
         except Exception as ex:
             logger.debug('Failed to get cover: %s', ex)
-        # end try
 
         self.novel_author = soup.select_one('.media-body dl dt').text
         self.novel_author += soup.select_one('.media-body dl dd').text

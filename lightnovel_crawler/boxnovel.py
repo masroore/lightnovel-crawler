@@ -48,7 +48,8 @@ class BoxNovelCrawler(Crawler):
         chapters = soup.select('ul.main li.wp-manga-chapter a')
         chapters.reverse()
 
-        for a in chapters:
+        vol_id = None
+        for ch in chapters:
             chap_id = len(self.chapters) + 1
             if len(self.chapters) % 100 == 0:
                 vol_id = chap_id // 100 + 1
@@ -61,8 +62,8 @@ class BoxNovelCrawler(Crawler):
             self.chapters.append({
                 'id': chap_id,
                 'volume': vol_id,
-                'url': self.absolute_url(a['href']),
-                'title': a.text.strip() or ('Chapter %d' % chap_id),
+                'url': self.absolute_url(ch['href']),
+                'title': ch.text.strip() or ('Chapter %d' % chap_id),
             })
 
         logger.debug(self.chapters)
