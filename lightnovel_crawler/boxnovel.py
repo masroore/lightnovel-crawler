@@ -25,7 +25,7 @@ class BoxNovelCrawler(Crawler):
         pass
 
     def read_novel_info(self):
-        '''Get novel title, autor, cover etc'''
+        '''Get novel title, author, cover etc'''
         logger.debug('Visiting %s', self.novel_url)
         response = self.get_response(self.novel_url)
         doc = SoupKitchen(response.text)
