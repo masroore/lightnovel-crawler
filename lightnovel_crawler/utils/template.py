@@ -2,17 +2,7 @@
 import functools
 import os
 import re
-import sys
 import warnings
-
-py = sys.version_info
-py3k = py >= (3, 0, 0)
-
-if py3k:
-    basestring = str
-    unicode = str
-else:  # 2.x
-    unicode = unicode
 
 TEMPLATE_PATH = ['./', './views/']
 TEMPLATES = {}
@@ -35,16 +25,8 @@ class TemplateError(Exception):
     pass
 
 
-# Some helpers for string/byte handling
-def tob(s, enc='utf8'):
-    return s.encode(enc) if isinstance(s, unicode) else bytes(s)
-
-
-def touni(s, enc='utf8', err='strict'):
-    return s.decode(enc, err) if isinstance(s, bytes) else unicode(s)
-
-
-tonat = touni if py3k else tob
+def to_uni(s, enc='utf8', err='strict'):
+    return s.decode(enc, err) if isinstance(s, bytes) else str(s)
 
 
 def depr(message, hard=False):
@@ -150,8 +132,8 @@ class SimpleTemplate(BaseTemplate):
     def prepare(self, escape_func=html_escape, noescape=False, syntax=None, **ka):
         self.cache = {}
         enc = self.encoding
-        self._str = lambda x: touni(x, enc)
-        self._escape = lambda x: escape_func(touni(x, enc))
+        self._str = lambda x: to_uni(x, enc)
+        self._escape = lambda x: escape_func(to_uni(x, enc))
         self.syntax = syntax
         if noescape:
             self._str, self._escape = self._escape, self._str
@@ -167,10 +149,10 @@ class SimpleTemplate(BaseTemplate):
             with open(self.filename, 'rb') as f:
                 source = f.read()
         try:
-            source, encoding = touni(source), 'utf8'
+            source, encoding = to_uni(source), 'utf8'
         except UnicodeError:
             depr('Template encodings other than utf8 are no longer supported.')  # 0.11
-            source, encoding = touni(source, 'latin1'), 'latin1'
+            source, encoding = to_uni(source, 'latin1'), 'latin1'
         parser = StplParser(source, encoding=encoding, syntax=self.syntax)
         code = parser.translate()
         self.encoding = parser.encoding
@@ -255,7 +237,7 @@ class StplParser(object):
     default_syntax = '<% %> % {{ }}'
 
     def __init__(self, source, syntax=None, encoding='utf8'):
-        self.source, self.encoding = touni(source, encoding), encoding
+        self.source, self.encoding = to_uni(source, encoding), encoding
         self.set_syntax(syntax or self.default_syntax)
         self.code_buffer, self.text_buffer = [], []
         self.lineno, self.offset = 1, 0
@@ -459,13 +441,17 @@ if __name__ == '__main__':
     print(s)
 
     t = '%from base64 import b64encode\nstart {{b64encode(var.encode("ascii") if hasattr(var, "encode") else var)}} end'
-    s = render(t, var='var')
+    s = render(t, var='abc123')
     print(s)
 
-    s = template(t, var='var')
+    s = template(t, var='def654')
     print(s)
 
-    t = 'start\n%for i in l:\n{{i}} \n%end\nend'
+    t = '''---start
+%for i in l:
+    {{i}}
+%end
+---end'''
     s = render(t, l=['a', 2, 3.0])
     print(s)
 
