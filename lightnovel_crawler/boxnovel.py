@@ -37,7 +37,6 @@ class BoxNovelCrawler(Crawler):
         self.novel_title = h3.text.split(" ", 1)[1].strip()
         logger.info('Novel title: %s', self.novel_title)
 
-        # img = doc.find_class('div', 'summary_image')
         img = doc.find_recursive(['div.summary_image', 'a', 'img'])
 
         if img:
@@ -82,7 +81,7 @@ class BoxNovelCrawler(Crawler):
         soup = BeautifulSoup(response.text, 'lxml')
 
         # chapter['title'] = soup.find('li', {'class':'active'}).text
-        content = soup.find("div", {"class": "text-left"}).findAll("p")
+        content = soup.find('div', class_='text-left').findAll('p')
 
         title = soup.find_all(re.compile('^h[2-4]$'))
 
@@ -90,13 +89,11 @@ class BoxNovelCrawler(Crawler):
             chapter['title'] = title[0].text
         else:
             if 'Translator' in soup.select_one('p').text:
-                chapter['title'] = soup.select_one(
-                    'p').text.split("Translator", 1)[0]
+                chapter['title'] = soup.select_one('p').text.split("Translator", 1)[0]
             else:
                 chapter['title'] = soup.select_one('p').text
                 logger.info('Downloading %s', content.pop(0))
 
-        body_parts = ''.join([str(p.extract())
-                              for p in content if p.text.strip()])
+        body_parts = ''.join([str(p.extract()) for p in content if p.text.strip()])
 
         return body_parts

@@ -55,9 +55,8 @@ def novel_info(app):
     app.logger.info('Checking output path...')
     app.output_path = os.path.abspath(
         re.sub(r'[\\/*?:"<>|\']', '', app.crawler.novel_title))
-    if os.path.exists(app.output_path):
-        if force_replace_old():
-            shutil.rmtree(app.output_path, ignore_errors=True)
+    if os.path.exists(app.output_path) and force_replace_old():
+        shutil.rmtree(app.output_path, ignore_errors=True)
 
     os.makedirs(app.output_path, exist_ok=True)
 
