@@ -19,7 +19,7 @@ from .novelplanet import NovelPlanetCrawler
 from .readln import ReadLightNovelCrawler
 from .tests.crawler_app_test import run_tests
 from .webnovel import WebnovelCrawler
-from .wuxia import WuxiaCrawler
+from .wuxia import WuxiaWorldCrawler
 from .wuxiac import WuxiaCoCrawler
 from .wuxiaonline import WuxiaOnlineCrawler
 
@@ -27,7 +27,7 @@ crawler_list = {
     'https://lnmtl.com/': LNMTLCrawler,
     'https://www.webnovel.com/': WebnovelCrawler,
     'https://wuxiaworld.online/': WuxiaOnlineCrawler,
-    'https://www.wuxiaworld.com/': WuxiaCrawler,
+    'https://www.wuxiaworld.com/': WuxiaWorldCrawler,
     'https://www.wuxiaworld.co/': WuxiaCoCrawler,
     'https://boxnovel.com/': BoxNovelCrawler,
     'https://novelplanet.com/': NovelPlanetCrawler,

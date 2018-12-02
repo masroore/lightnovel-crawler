@@ -11,7 +11,7 @@ from .utils.crawler import Crawler
 logger = logging.getLogger('WUXIA_WORLD')
 
 
-class WuxiaCrawler(Crawler):
+class WuxiaWorldCrawler(Crawler):
     @property
     def supports_login(self):
         '''Whether the crawler supports login() and logout method'''
@@ -23,8 +23,8 @@ class WuxiaCrawler(Crawler):
     def logout(self):
         pass
 
-    def read_novel_info(self):
-        '''Get novel title, autor, cover etc'''
+    def read_novel_info(self, url=None):
+        '''Get novel title, author, cover etc'''
         logger.debug('Visiting %s', self.novel_url)
         response = self.get_response(self.novel_url)
         soup = BeautifulSoup(response.text, 'lxml')
@@ -75,4 +75,5 @@ class WuxiaCrawler(Crawler):
         ]
         body_parts = soup.select_one('.panel-default .fr-view')
         body = self.extract_contents(body_parts.contents)
-        return '<p>' + '</p><p>'.join(body) + '</p'
+        return '\n'.join('<p>{}</p>'.format(s) for s in body)
+        #return '<p>' + '</p><p>'.join(body) + '</p'
