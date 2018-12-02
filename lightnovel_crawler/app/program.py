@@ -13,6 +13,7 @@ from .additional_configs import additional_configs
 from .download_chapters import download_chapters
 from .bind_books import bind_books
 
+
 class Program:
     crawler = Crawler()
     logger = logging.getLogger('CRAWLER_APP')
