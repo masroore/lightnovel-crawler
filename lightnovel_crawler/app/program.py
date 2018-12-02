@@ -5,7 +5,7 @@ The main entry point of the program
 import logging
 
 from ..binders import bind_books
-from ..utils.crawler import Crawler
+from ..crawlers import Crawler
 from .arguments import get_args
 from .downloader import download_chapters
 from .novel_info import novel_info

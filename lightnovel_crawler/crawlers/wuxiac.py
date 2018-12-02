@@ -7,7 +7,7 @@ import re
 
 from bs4 import BeautifulSoup
 
-from .utils.crawler import Crawler
+from .crawler import Crawler
 
 logger = logging.getLogger('WUXIA_WORLD')
 

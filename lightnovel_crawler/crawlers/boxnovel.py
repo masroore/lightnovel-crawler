@@ -6,8 +6,8 @@ import logging
 import re
 
 from bs4 import BeautifulSoup
-from .utils.soup_kitchen import SoupKitchen
-from .utils.crawler import Crawler
+from ..utils.soup_kitchen import SoupKitchen
+from .crawler import Crawler
 
 logger = logging.getLogger('BOXNOVEL')
 

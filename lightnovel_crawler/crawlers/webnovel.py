@@ -5,7 +5,7 @@ Crawler for novels from [WebNovel](https://www.webnovel.com).
 import logging
 import re
 
-from .utils.crawler import Crawler
+from .crawler import Crawler
 
 logger = logging.getLogger('WEBNOVEL')
 

@@ -6,7 +6,7 @@ import logging
 
 from bs4 import BeautifulSoup
 
-from .utils.crawler import Crawler
+from .crawler import Crawler
 
 logger = logging.getLogger('NOVEL_PLANET')
 
@@ -50,6 +50,7 @@ class NovelPlanetCrawler(Crawler):
         chapters = soup.find_all('div', {'class': 'rowChapter'})
         chapters.reverse()
 
+        vol_id = None
         for x in chapters:
             chap_id = len(self.chapters) + 1
             if len(self.chapters) % 100 == 0:

@@ -1,17 +1,18 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Crawler for [readlightnovel.org](https://www.readlightnovel.org/).
+Crawler for [LnIndo](https://lnindo.org/).
 """
 import logging
 
 from bs4 import BeautifulSoup
 
-from .utils.crawler import Crawler
+from .crawler import Crawler
 
-logger = logging.getLogger('READLIGHTNOVEL')
+logger = logging.getLogger('LNINDO')
 
 
-class ReadLightNovelCrawler(Crawler):
+class LnindoCrawler(Crawler):
     @property
     def supports_login(self):
         '''Whether the crawler supports login() and logout method'''
@@ -29,22 +30,23 @@ class ReadLightNovelCrawler(Crawler):
         response = self.get_response(self.novel_url)
         soup = BeautifulSoup(response.text, 'lxml')
 
-        self.novel_title = soup.select_one('.block-title h1').text
+        self.novel_title = soup.find_all(
+            'span', {"typeof": "v:Breadcrumb"})[-1].text
         logger.info('Novel title: %s', self.novel_title)
 
-        self.novel_cover = self.absolute_url(
-            soup.find('img', {'alt': self.novel_title})['src'])
+        self.novel_cover = "https://lnindo.org/images/noavailable.jpg"
         logger.info('Novel cover: %s', self.novel_cover)
 
-        try:
-            self.novel_author = soup.select_one(
-                "a[href*=author]").text.strip().title()
-            logger.info('Novel author: %s', self.novel_author)
-        except Exception as err:
-            logger.debug('Failed getting author: %s', err)
-        # end try
+        author = soup.select('p')[2].text
+        self.novel_author = author[20:len(author) - 22]
+        logger.info('Novel author: %s', self.novel_author)
 
-        for a in soup.select('.chapters .chapter-chs li a'):
+        chapters = soup.find('div', {
+            'style': '-moz-border-radius: 5px 5px 5px 5px; border: 1px solid #3b5998; color: black; height: 400px; margin: 5px; overflow: auto; padding: 5px; width: 96%;'}).find_all(
+            'a')
+        chapters.reverse()
+
+        for a in chapters:
             chap_id = len(self.chapters) + 1
             if len(self.chapters) % 100 == 0:
                 vol_id = chap_id // 100 + 1
@@ -70,6 +72,10 @@ class ReadLightNovelCrawler(Crawler):
         response = self.get_response(chapter['url'])
         soup = BeautifulSoup(response.text, 'lxml')
 
-        body_parts = soup.select_one('.chapter-content3 .desc')
-        body = self.extract_contents(body_parts.contents)
-        return '<p>' + '</p><p>'.join(body) + '</p>'
+        for a in soup.find_all('a'):
+            a.decompose()
+
+        body_parts = soup.select('p')
+
+        return ''.join([str(p.extract()) for p in body_parts if
+                        p.text.strip() and not 'Advertisement' in p.text and not 'JavaScript!' in p.text])

@@ -1,18 +1,17 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Crawler for [LnIndo](https://lnindo.org/).
+Crawler for [readlightnovel.org](https://www.readlightnovel.org/).
 """
 import logging
 
 from bs4 import BeautifulSoup
 
-from .utils.crawler import Crawler
+from .crawler import Crawler
 
-logger = logging.getLogger('LNINDO')
+logger = logging.getLogger('READLIGHTNOVEL')
 
 
-class LnindoCrawler(Crawler):
+class ReadLightNovelCrawler(Crawler):
     @property
     def supports_login(self):
         '''Whether the crawler supports login() and logout method'''
@@ -30,23 +29,22 @@ class LnindoCrawler(Crawler):
         response = self.get_response(self.novel_url)
         soup = BeautifulSoup(response.text, 'lxml')
 
-        self.novel_title = soup.find_all(
-            'span', {"typeof": "v:Breadcrumb"})[-1].text
+        self.novel_title = soup.select_one('.block-title h1').text
         logger.info('Novel title: %s', self.novel_title)
 
-        self.novel_cover = "https://lnindo.org/images/noavailable.jpg"
+        self.novel_cover = self.absolute_url(
+            soup.find('img', {'alt': self.novel_title})['src'])
         logger.info('Novel cover: %s', self.novel_cover)
 
-        author = soup.select('p')[2].text
-        self.novel_author = author[20:len(author) - 22]
-        logger.info('Novel author: %s', self.novel_author)
+        try:
+            self.novel_author = soup.select_one(
+                "a[href*=author]").text.strip().title()
+            logger.info('Novel author: %s', self.novel_author)
+        except Exception as err:
+            logger.debug('Failed getting author: %s', err)
+        # end try
 
-        chapters = soup.find('div', {
-            'style': '-moz-border-radius: 5px 5px 5px 5px; border: 1px solid #3b5998; color: black; height: 400px; margin: 5px; overflow: auto; padding: 5px; width: 96%;'}).find_all(
-            'a')
-        chapters.reverse()
-
-        for a in chapters:
+        for a in soup.select('.chapters .chapter-chs li a'):
             chap_id = len(self.chapters) + 1
             if len(self.chapters) % 100 == 0:
                 vol_id = chap_id // 100 + 1
@@ -72,10 +70,6 @@ class LnindoCrawler(Crawler):
         response = self.get_response(chapter['url'])
         soup = BeautifulSoup(response.text, 'lxml')
 
-        for a in soup.find_all('a'):
-            a.decompose()
-
-        body_parts = soup.select('p')
-
-        return ''.join([str(p.extract()) for p in body_parts if
-                        p.text.strip() and not 'Advertisement' in p.text and not 'JavaScript!' in p.text])
+        body_parts = soup.select_one('.chapter-content3 .desc')
+        body = self.extract_contents(body_parts.contents)
+        return '<p>' + '</p><p>'.join(body) + '</p>'

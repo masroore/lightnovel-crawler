@@ -5,7 +5,7 @@ Crawler application
 import re
 from concurrent import futures
 
-from . import cfscrape
+from ..utils import cfscrape
 
 
 class Crawler:
