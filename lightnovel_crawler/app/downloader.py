@@ -61,8 +61,7 @@ def download_chapter_body(app, chapter):
         if len(body) == 0:
             body = result = 'Body is empty: ' + chapter['url']
 
-        chapter['body'] = '<h3>%s</h3><h1>%s</h1>\n%s' % (
-            chapter['volume_title'], chapter['title'], body)
+        chapter['body'] = '<h3>%s</h3><h1>%s</h1>\n%s' % (chapter['volume_title'], chapter['title'], body)
         with open(file_name, 'w') as file:
             file.write(json.dumps(chapter))
 
