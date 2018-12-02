@@ -16,7 +16,7 @@ def bind_html_chapter(chapter, prev_chapter, next_chapter):
     next_button = generate_filename(next_chapter['id']) if next_chapter else '#'
     file_name = generate_filename(chapter['id'])
     tpl_dir = os.path.join(os.path.dirname(__file__), '..', 'templates')
-    tpl = SimpleTemplate(name='html', lookup=[tpl_dir])
+    tpl = SimpleTemplate(name='html_chapter', lookup=[tpl_dir])
     html = render(tpl,
                   title=chapter['title'],
                   body=chapter['body'],
@@ -26,8 +26,23 @@ def bind_html_chapter(chapter, prev_chapter, next_chapter):
     return html, file_name
 
 
+def bind_html_index(title, chapters, dir_name):
+    tpl_dir = os.path.join(os.path.dirname(__file__), '..', 'templates')
+    tpl = SimpleTemplate(name='html_index', lookup=[tpl_dir])
+    html = render(tpl,
+                  title=title,
+                  chapters=chapters,
+                  style=get_css_style()
+                  )
+    file_name = os.path.join(dir_name, '00-index.html')
+    with open(file_name, 'w', encoding='utf-8') as file:
+        file.write(html)
+    return html, file_name
+
+
 def make_htmls(app, data):
     web_files = []
+    chapters = []
     for vol in data:
         dir_name = os.path.join(app.output_path, 'html', vol)
         os.makedirs(dir_name, exist_ok=True)
@@ -37,11 +52,14 @@ def make_htmls(app, data):
             next_chapter = data[vol][i + 1] if i + 1 < len(data[vol]) else None
             html, file_name = bind_html_chapter(chapter, prev_chapter, next_chapter)
 
+            chapters.append({'title': chapter['title'], 'link': './{0}'.format(file_name)})
             file_name = os.path.join(dir_name, file_name)
             with open(file_name, 'w', encoding='utf-8') as file:
                 file.write(html)
 
             web_files.append(file_name)
+
+    bind_html_index(app.crawler.novel_title, chapters, dir_name)
 
     logger.warning('Created: %d html files', len(web_files))
     return web_files

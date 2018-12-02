@@ -59,6 +59,10 @@ h1:after {
     color: transparent;
 }
 
+ul.chapters {
+    list-style-type: none;
+}
+
 .link-group {
     padding: 10px;
     margin: 15px 0;
