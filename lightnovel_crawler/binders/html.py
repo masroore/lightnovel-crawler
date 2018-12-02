@@ -59,7 +59,7 @@ def make_htmls(app, data):
 
             web_files.append(file_name)
 
-    bind_html_index(app.crawler.novel_title, chapters, dir_name)
+    bind_html_index(app.crawler.novel_title, chapters, os.path.join(app.output_path, 'html'))
 
     logger.warning('Created: %d html files', len(web_files))
     return web_files
