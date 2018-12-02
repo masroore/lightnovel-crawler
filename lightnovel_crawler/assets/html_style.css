@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i');
-/* */
 
 html, body {
     margin: 0;
@@ -121,6 +120,7 @@ div#readpos {
         max-width: none;
         box-shadow: none;
     }
+
     .link-group {
         display: none;
     }
