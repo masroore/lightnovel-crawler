@@ -47,7 +47,7 @@ The list of crawable websites are given below:
 
 ## Adding new source
 
-- Use the [`_sample.py`](https://github.com/masroore/novel_crawler/blob/master/lightnovel_crawler/_sample.py) as blueprint.
-- Add your crawler to [`__init__.py`](https://github.com/masroore/novel_crawler/blob/master/lightnovel_crawler/__init__.py).
+- Use the [`_sample.py`](https://github.com/masroore/novel_crawler/blob/master/nc/spiders/_sample.py) as blueprint.
+- Add your crawler to [`__init__.py`](https://github.com/masroore/novel_crawler/blob/master/nc/spiders/__init__.py).
 
 That's all!
