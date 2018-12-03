@@ -21,6 +21,7 @@ class Crawler:
     novel_title = 'N/A'
     novel_author = 'N/A'
     novel_cover = None
+    novel_summary = None
 
     '''
     Each item must contain these keys:

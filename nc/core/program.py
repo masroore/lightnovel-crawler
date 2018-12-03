@@ -14,11 +14,11 @@ from .prompts import (download_selection, login_info, pack_by_volume,
                       range_using_index, range_using_urls)
 
 
-class Program:
+class Program(object):
     crawler = Crawler()
     logger = logging.getLogger('CRAWLER_APP')
 
-    def run(self, crawler):
+    def run(self, crawler: Crawler):
         self.crawler = crawler
         self.pack_by_volume = False
 

@@ -43,6 +43,11 @@ class WuxiaWorldCrawler(Crawler):
         self.novel_author += soup.select_one('.media-body dl dd').text
         logger.info('Novel author: %s', self.novel_author)
 
+        noidungm = soup.select_one('#noidungm')
+        if noidungm:
+            noidungm.select_one('h2').extract()
+            self.novel_summary = noidungm.text
+
         for panel in soup.select('#accordion .panel-default'):
             vol_id = int(panel.select_one('h4.panel-title .book').text)
             vol_title = panel.select_one('h4.panel-title .title a').text
@@ -76,4 +81,4 @@ class WuxiaWorldCrawler(Crawler):
         body_parts = soup.select_one('.panel-default .fr-view')
         body = self.extract_contents(body_parts.contents)
         return '\n'.join('<p>{}</p>'.format(s) for s in body)
-        #return '<p>' + '</p><p>'.join(body) + '</p'
+        # return '<p>' + '</p><p>'.join(body) + '</p'

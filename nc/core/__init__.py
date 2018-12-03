@@ -2,12 +2,14 @@
 """
 Interactive application to take user inputs
 """
+from typing import Dict
+
 from .display import url_not_recognized, cancel_method
 from .program import Program
 from .prompts import get_novel_url
 
 
-def start_app(choice_list):
+def start_app(choice_list: Dict[str, type]):
     cancel_method()
 
     novel_url = get_novel_url()

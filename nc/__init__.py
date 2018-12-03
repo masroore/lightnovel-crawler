@@ -7,9 +7,9 @@ import os
 import requests
 from colorama import init as init_colorama
 
-from .app import start_app
-from .app.arguments import get_args, build_parser
-from .app.display import description, debug_mode
+from .core import start_app
+from .core.arguments import get_args, build_parser
+from .core.display import description, debug_mode
 from .assets.version import get_value as get_version
 from .spiders import spiders
 from .tests.crawler_app_test import run_tests

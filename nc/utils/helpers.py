@@ -31,11 +31,11 @@ def writefile(fname: str, content: str):
 
 # HTML to text
 
-def _to_txt_ht(s):
+def _to_txt_ht(s: str) -> str:
     return html2text(s, bodywidth=0)
 
 
-def _to_txt_bs(s):
+def _to_txt_bs(s: str) -> str:
     soup = BeautifulSoup(s, 'lxml')
     text = '\n\n'.join(soup.stripped_strings)
     text = re.sub('[\r\n]+', '\r\n', text)

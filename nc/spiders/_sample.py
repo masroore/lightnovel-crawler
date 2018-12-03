@@ -15,12 +15,12 @@ logger = logging.getLogger('CHANGE_THIS_NAME')
 class SampleCrawler(Crawler):
     def initialize(self):
         # TODO: Initiaze your crawler, variables etc. It gets called at the
-        #       beginning of the app.
+        #       beginning of the core.
         pass
 
     def dispose(self):
         # TODO: Dispose your crawler, variables etc. It gets called at the
-        #       beginning of the app.
+        #       beginning of the core.
         pass
 
     @property
