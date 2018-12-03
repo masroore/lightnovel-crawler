@@ -100,22 +100,33 @@ ul.chapters {
     box-shadow: 1px 1px 2px #cce inset, 0 0 0 1px #ccc;
 }
 
-div#readpos {
-    border-radius: 10px;
-    font-weight: bold;
-    font-family: monospace;
-    color: #770;
-    font-size: 14px;
-    padding: 5px 10px;
-    background: white;
-    box-shadow: 0 0 10px #333, 0 0 0 1px #dde;
+progress {
+    /* Positioning */
     position: fixed;
-    bottom: 10px;
-    right: 10px;
-    user-select: none;
-    -webkit-user-drag: none;
-    /* min-width: 100px;
-    text-align: right; */
+    left: 0;
+    top: 0;
+
+    /* Dimensions */
+    width: 100%;
+    height: .25em;
+
+    /* Reset the apperance */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    /* Get rid of the default border in Firefox/Opera. */
+    border: none;
+
+    /* For Firefox/IE10+ */
+    background-color: transparent;
+
+    /* For IE10+, color of the progress bar */
+    color: red;
+}
+
+progress::-webkit-progress-bar {
+    background-color: transparent;
 }
 
 @media print {
