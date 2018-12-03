@@ -1,7 +1,9 @@
 beautifulsoup4==4.6.3
-EbookLib==0.17
-requests==2.20.1
-PyInquirer==1.0.3
-progress==1.4
-Js2Py==0.59
 colorama==0.4.1
+constantly==15.1.0
+EbookLib==0.17
+html2text==2018.1.9
+Js2Py==0.59
+lxml==4.2.5
+progress==1.4
+requests==2.20.1
