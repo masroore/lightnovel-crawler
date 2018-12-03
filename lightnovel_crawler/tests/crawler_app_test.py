@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Crawler application
@@ -7,31 +6,27 @@ import random
 import logging
 from time import sleep
 from lightnovel_crawler.app import start_app
-from ..crawlers import Crawler
+from ..spiders import Crawler
 
 
 class TestCrawler(Crawler):
     @property
     def supports_login(self):
         return True
-    # end def
 
     def login(self, email, password):
         print('Login has been called: email=%s, password=%s' % (email, password))
         sleep(2)
-    # end def
 
     def logout(self):
         print('Logout has been called')
         sleep(1)
-    # end def
 
     def read_novel_info(self, url):
-        '''Get novel title, autor, cover etc'''
+        '''Get novel title, author, cover etc'''
         print('Inside read novel info')
         sleep(1)
         self.novel_title = 'Test Novel'
-    # end def
 
     def download_chapter_list(self):
         '''Download list of chapters and volumes.'''
@@ -53,7 +48,6 @@ class TestCrawler(Crawler):
             }
             for i in range(25)
         ]
-    # end def
 
     def download_chapter_body(self, chapter):
         '''Download body of a single chapter and return as clean html format.'''
@@ -66,8 +60,7 @@ class TestCrawler(Crawler):
                 ]) for y in range(random.randint(10, 100))
             ]) for z in range(10)
         ]) + '</p>'
-    # end def
-# end class
+
 
 def run_tests():
     logging.basicConfig(level=logging.DEBUG)
@@ -79,9 +72,7 @@ def run_tests():
     start_app({
         'Test App': TestCrawler
     })
-# end def
 
 
 if __name__ == '__main__':
     run_tests()
-# end if

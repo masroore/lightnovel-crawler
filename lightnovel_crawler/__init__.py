@@ -11,8 +11,11 @@ from .app import start_app
 from .app.arguments import get_args, build_parser
 from .app.display import description, debug_mode
 from .assets.version import get_value as get_version
+from .spiders import (LnindoCrawler, LNMTLCrawler, WuxiaWorldCrawler,
+                      WebnovelCrawler, WuxiaCoCrawler, WuxiaOnlineCrawler,
+                      BoxNovelCrawler, IdqidianCrawler, NovelPlanetCrawler,
+                      ReadLightNovelCrawler)
 from .tests.crawler_app_test import run_tests
-from .crawlers import *
 
 crawler_list = {
     'https://lnmtl.com/': LNMTLCrawler,
@@ -30,13 +33,11 @@ crawler_list = {
 
 def main():
     init_colorama()
-
     os.environ['version'] = get_version()
-
     description()
     build_parser()
-
     args = get_args()
+
     if args.log:
         os.environ['debug_mode'] = 'true'
         levels = [None, logging.WARN, logging.INFO, logging.DEBUG]

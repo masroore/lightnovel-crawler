@@ -9,7 +9,7 @@ from ..utils import cfscrape
 
 
 class Crawler:
-    '''Blueprint for creating new crawlers'''
+    '''Blueprint for creating new spiders'''
 
     home_url = ''
     novel_url = ''
