@@ -1,4 +1,4 @@
-# Lightnovel Crawler
+# Novel Crawler
 
 [![Python version](https://img.shields.io/pypi/pyversions/lightnovel-crawler.svg)](https://pypi.org/project/lightnovel-crawler)
 [![PyPI version](https://img.shields.io/pypi/v/lightnovel-crawler.svg)](https://pypi.org/project/lightnovel-crawler)
@@ -14,24 +14,6 @@
 Crawls light novels and make html, text, epub and mobi
 
 ## Tutorial
-
-### Easy download
-
-📦 [For Windows ~ 11MB](https://github.com/dipu-bd/lightnovel-crawler/releases/download/v2.5.0/lncrawl.exe)
-
-### Installation
-
-Make sure that you have `python3` and `pip` installed in your computer. Add this package using:
-
-```bash
-$ pip3 install --user -U lightnovel-crawler
-
-# Or if it does not work, use:
-$ python3 -m pip install --user -U lightnovel-crawler
-```
-
-Next, *Open the console panel in a directory you want to store your downloaded novels* and
-run the following to open an interactive console.
 
 ```bash
 $ lightnovel-crawler
@@ -50,7 +32,7 @@ $ lncrawl -h
 
 ### Available websites
 
-The list of crawable websites are given below. *Request new site by [creating a new issue](https://github.com/dipu-bd/lightnovel-crawler/issues)*.
+The list of crawable websites are given below:
 
 - https://lnmtl.com
 - https://www.webnovel.com
@@ -65,7 +47,7 @@ The list of crawable websites are given below. *Request new site by [creating a 
 
 ## Adding new source
 
-- Use the [`_sample.py`](https://github.com/dipu-bd/lightnovel-crawler/blob/master/lightnovel_crawler/_sample.py) as blueprint.
-- Add your crawler to [`__init__.py`](https://github.com/dipu-bd/lightnovel-crawler/blob/master/lightnovel_crawler/__init__.py).
+- Use the [`_sample.py`](https://github.com/masroore/novel_crawler/blob/master/lightnovel_crawler/_sample.py) as blueprint.
+- Add your crawler to [`__init__.py`](https://github.com/masroore/novel_crawler/blob/master/lightnovel_crawler/__init__.py).
 
 That's all!
