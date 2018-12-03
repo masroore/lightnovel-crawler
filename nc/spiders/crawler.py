@@ -14,7 +14,7 @@ class Crawler:
     home_url = ''
     novel_url = ''
     last_visited_url = None
-    scrapper = cfscrape.create_scraper()
+    scraper = cfscrape.create_scraper()
     executor = futures.ThreadPoolExecutor(max_workers=5)
 
     '''Must resolve these fields inside `read_novel_info`'''
@@ -39,7 +39,7 @@ class Crawler:
     chapters = []
 
     def __init__(self):
-        self.scrapper.verify = False
+        self.scraper.verify = False
 
     # ------------------------------------------------------------------------- #
     # Implement these methods
@@ -88,11 +88,11 @@ class Crawler:
     # ------------------------------------------------------------------------- #
     @property
     def headers(self):
-        return self.scrapper.headers.copy()
+        return self.scraper.headers.copy()
 
     @property
     def cookies(self):
-        return {x.name: x.value for x in self.scrapper.cookies}
+        return {x.name: x.value for x in self.scraper.cookies}
 
     def absolute_url(self, url):
         if not url or len(url) == 0:
@@ -108,7 +108,7 @@ class Crawler:
 
     def get_response(self, url, incognito=False):
         self.last_visited_url = url.strip('/')
-        response = self.scrapper.get(url)
+        response = self.scraper.get(url)
         response.encoding = 'utf-8'
         self.cookies.update({
             x.name: x.value
@@ -122,7 +122,7 @@ class Crawler:
             'content-type': 'multipart/form-data' if multipart
             else 'application/x-www-form-urlencoded'
         }
-        response = self.scrapper.post(url, data=data, headers=headers)
+        response = self.scraper.post(url, data=data, headers=headers)
         self.cookies.update({
             x.name: x.value
             for x in response.cookies

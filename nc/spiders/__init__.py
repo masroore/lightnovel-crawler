@@ -23,3 +23,16 @@ __all__ = [
     WuxiaCoCrawler.__name__,
     WuxiaOnlineCrawler.__name__
 ]
+
+spiders = {
+    'https://lnmtl.com/': LNMTLCrawler,
+    'https://www.webnovel.com/': WebnovelCrawler,
+    'https://wuxiaworld.online/': WuxiaOnlineCrawler,
+    'https://www.wuxiaworld.com/': WuxiaWorldCrawler,
+    'https://www.wuxiaworld.co/': WuxiaCoCrawler,
+    'https://boxnovel.com/': BoxNovelCrawler,
+    'https://novelplanet.com/': NovelPlanetCrawler,
+    'https://www.readlightnovel.org/': ReadLightNovelCrawler,
+    'https://lnindo.org/': LnindoCrawler,
+    'https://www.idqidian.us/': IdqidianCrawler,
+}

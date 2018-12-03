@@ -11,24 +11,8 @@ from .app import start_app
 from .app.arguments import get_args, build_parser
 from .app.display import description, debug_mode
 from .assets.version import get_value as get_version
-from .spiders import (LnindoCrawler, LNMTLCrawler, WuxiaWorldCrawler,
-                      WebnovelCrawler, WuxiaCoCrawler, WuxiaOnlineCrawler,
-                      BoxNovelCrawler, IdqidianCrawler, NovelPlanetCrawler,
-                      ReadLightNovelCrawler)
+from .spiders import spiders
 from .tests.crawler_app_test import run_tests
-
-crawler_list = {
-    'https://lnmtl.com/': LNMTLCrawler,
-    'https://www.webnovel.com/': WebnovelCrawler,
-    'https://wuxiaworld.online/': WuxiaOnlineCrawler,
-    'https://www.wuxiaworld.com/': WuxiaWorldCrawler,
-    'https://www.wuxiaworld.co/': WuxiaCoCrawler,
-    'https://boxnovel.com/': BoxNovelCrawler,
-    'https://novelplanet.com/': NovelPlanetCrawler,
-    'https://www.readlightnovel.org/': ReadLightNovelCrawler,
-    'https://lnindo.org/': LnindoCrawler,
-    'https://www.idqidian.us/': IdqidianCrawler,
-}
 
 
 def main():
@@ -51,7 +35,7 @@ def main():
         if args.test:
             run_tests()
         else:
-            start_app(crawler_list)
+            start_app(spiders)
 
     except Exception as err:
         if args.log == 3:
