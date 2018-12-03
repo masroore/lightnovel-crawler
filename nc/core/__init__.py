@@ -5,7 +5,7 @@ Interactive application to take user inputs
 from typing import Dict
 
 from .display import url_not_recognized, cancel_method
-from .program import Program
+from .app import App
 from .prompts import get_novel_url
 
 
@@ -26,4 +26,4 @@ def start_app(choice_list: Dict[str, type]):
         url_not_recognized(choice_list)
         return
 
-    Program().run(instance)
+    App().run(instance)
