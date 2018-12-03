@@ -152,7 +152,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=install_requires + ['lightnovel_crawler'],  # Optional
+    install_requires=install_requires + ['nc'],  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -173,7 +173,7 @@ setup(
     # If using Python 2.6 or earlier, then these have to be included in
     # MANIFEST.in as well.
     # package_data={  # Optional
-    #     'lightnovel_crawler': [
+    #     'nc': [
     #         'VERSION',
     #         'binders/html_style.css',
     #     ],
@@ -195,8 +195,8 @@ setup(
     # executes the function `main` from this package when invoked:
     entry_points={  # Optional
         'console_scripts': [
-            'lightnovel-crawler=lightnovel_crawler:main',
-            'lncrawl=lightnovel_crawler:main',
+            'lightnovel-crawler=nc:main',
+            'lncrawl=nc:main',
         ],
     },
 

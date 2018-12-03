@@ -4,8 +4,8 @@ import sys
 cur_dir = os.path.dirname(__file__)
 
 module_list = [
-    'lightnovel_crawler.assets.version',
-    'lightnovel_crawler.assets.html_style',
+    'nc.assets.version',
+    'nc.assets.html_style',
 ]
 
 full_path = {
