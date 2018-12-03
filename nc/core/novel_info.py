@@ -43,6 +43,7 @@ def save_metadata(crawler, output_path):
         'cover': crawler.novel_cover,
         'volumes': crawler.volumes,
         'chapters': crawler.chapters,
+        'summary': crawler.novel_summary,
     }
     with open(file_name, 'w') as file:
         json.dump(data, file, indent=2)

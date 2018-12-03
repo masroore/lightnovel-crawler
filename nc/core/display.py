@@ -10,12 +10,12 @@ LINE_SIZE = 64
 def description():
     print('=' * LINE_SIZE)
 
-    title = Icons.BOOK + ' Lightnovel Crawler ' + \
+    title = Icons.BOOK + ' Novel Crawler ' + \
             Icons.CLOVER + os.environ['version']
     padding = ' ' * ((LINE_SIZE - len(title)) // 2)
     print(Fore.YELLOW, padding + title, Fore.RESET)
 
-    desc = 'Download lightnovels into html, text, epub, mobi and json'
+    desc = 'Download web novels into html, text, epub, mobi and json'
     padding = ' ' * ((LINE_SIZE - len(desc)) // 2)
     print(Style.DIM, padding + desc, Style.RESET_ALL)
 

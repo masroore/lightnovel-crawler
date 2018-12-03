@@ -11,7 +11,7 @@ class ArgReader:
             usage='\tlncrawl [options...]\n\tlightnovel-crawler [options...]'
         )
         parser.add_argument('-v', '--version', action='version',
-                            version='Lightnovel Crawler ' + os.environ['version'])
+                            version='Novel Crawler ' + os.environ['version'])
         parser.add_argument('-l', '--log', action='count',
                             help='Set log levels (1 = warn, 2 = info, 3 = debug)')
 
@@ -30,7 +30,7 @@ class ArgReader:
                             help='User name/email address and password for login')
 
         selection = parser.add_mutually_exclusive_group()
-        selection.add_argument('--all', action='store_true',
+        selection.add_argument('-a', '--all', action='store_true',
                                help='Download all chapters')
         selection.add_argument('--first', type=int, nargs='?', metavar='COUNT',
                                help='Download first few chapters (default: 10)')
